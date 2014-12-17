@@ -28,3 +28,9 @@ mysqlConfig = {
         'use_unicode': True,
         'get_warnings': True,
     }
+
+graphiteSender = {
+    "Carbon_LineReceiverHost"  : "localhost",
+    "Carbon_LineReceiverPort" : 2003,
+    "Carbon_LineReceiverProtocol":"tcp",  
+    }

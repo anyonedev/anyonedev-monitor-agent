@@ -3,6 +3,7 @@
 import re
 import sys
 import json
+from monitor.metrics.Tail import LineParser
 
 """
 This is a parser of GC log of Sun HotSpot JVM Version 6.
@@ -16,13 +17,7 @@ Usage:
 You can get all data as a python dictionary structure
 in your analyer as follows:
 
-import sys
-import json
-
-list = []
-for line in sys.stdin:
-    line.rstrip()
-    list.append(dict(json.loads(line)))
+look at testcase in test.metrics.log.GCLoggerTest.py
         
 """
 
@@ -129,7 +124,7 @@ def orP(parsers):
             try:
                 (ret_text, ret_data) = parser(text, data)
                 return (ret_text, ret_data)
-            except ParseError, msg:
+            except ParseError as msg:
                 msgL.append(msg)
         msgs = toString(msgL)
         raise ParseError(msgs)
@@ -152,9 +147,9 @@ def manyP(parser):
                 (text1, data1) = parser(text0, data0)
                 text0 = text1
                 data0 = data1
-        except ParseError, msg:
+        except ParseError as msg:
             if __debug__:
-                print msg
+                print(msg)
         return (text1, data1)
     return parseMany_
 
@@ -243,45 +238,48 @@ parseParNew = andP([ \
     newP(regexp_float + r"\s*secs\]\s*", mkDictModifier("response", get_float)), \
     newP(r"\[Times:.*\]$", None), \
 ])
+'''
 if __debug__:
     text = r"2.380: [GC 2.380: [ParNew: 32768K->4204K(49152K), 0.0128980 secs] 32768K->4204K(114688K), 0.0130090 secs] [Times: user=0.04 sys=0.00, real=0.01 secs]"
     (ret, data) = parseParNew(text, {})
-    print text
-    print len(ret)
-    print data
+    print(text)
+    print(len(ret))
+    print(data)
 if __debug__:
     text = r"9.815: [GC 9.815: [ParNew: 32768K->10796K(49152K), 0.0286700 secs] 52540K->30568K(114688K) icms_dc=0 , 0.0287550 secs] [Times: user=0.09 sys=0.00, real=0.03 secs]"
     (ret, data) = parseParNew(text, {})
-    print text
-    print len(ret)
-    print data
-    
+    print(text)
+    print(len(ret))
+    print(data)
+'''   
 
 parseInitialMark = andP([ \
     mkTagger("type", "CMS-initial-mark"), \
     newP(regexp_float + r":\s*", mkDictModifier("timestamp", get_float)), \
     newP(r".*CMS-initial-mark:.*$", None), \
 ])
+'''
 if __debug__:
     text = r"3.072: [GC [1 CMS-initial-mark: 0K(65536K)] 19136K(114688K), 0.0215880 secs] [Times: user=0.04 sys=0.00, real=0.02 secs]"
     (ret, data) = parseInitialMark(text, {})
-    print text
-    print len(ret)
-    print data
-
+    print(text)
+    print(len(ret))
+    print(data)
+'''
 
 parseMarkStart = andP([ \
     mkTagger("type", "CMS-concurrent-mark-start"), \
     newP(regexp_float + r":\s*", mkDictModifier("timestamp", get_float)), \
     newP(r".*CMS-concurrent-mark-start.*$", None), \
 ])
+'''
 if __debug__:
     text = r"3.094: [CMS-concurrent-mark-start]"
     (ret, data) = parseMarkStart(text, {})
-    print text
-    print len(ret)
-    print data
-
+    print(text)
+    print(len(ret))
+    print(data)
+'''
 
 parseMark = andP([ \
     mkTagger("type", "CMS-concurrent-mark"), \
@@ -291,26 +289,28 @@ parseMark = andP([ \
     newP(regexp_float + r"\s+secs\]\s+", mkDictModifier("response", get_float)), \
     newP(r"\[Times:.*\]$", None), \
 ])
+'''
 if __debug__:
     text = r"3.131: [CMS-concurrent-mark: 0.034/0.037 secs] [Times: user=0.12 sys=0.00, real=0.04 secs]"
     (ret, data) = parseMark(text, {})
-    print text
-    print len(ret)
-    print data
-
+    print(text)
+    print(len(ret))
+    print(data)
+'''
 
 parsePrecleanStart = andP([ \
     mkTagger("type", "CMS-concurrent-preclean-start"), \
     newP(regexp_float + r":\s*", mkDictModifier("timestamp", get_float)), \
     newP(r".*CMS-concurrent-preclean-start.*$", None), \
 ])
+'''
 if __debug__:
     text = r"3.132: [CMS-concurrent-preclean-start]"
     (ret, data) = parsePrecleanStart(text, {})
-    print text
-    print len(ret)
-    print data
-
+    print(text)
+    print(len(ret))
+    print(data)
+'''
 
 parsePreclean = andP([ \
     mkTagger("type", "CMS-concurrent-preclean"), \
@@ -320,26 +320,28 @@ parsePreclean = andP([ \
     newP(regexp_float + r"\s+secs\]\s+", mkDictModifier("response", get_float)), \
     newP(r"\[Times:.*\]$", None), \
 ])
+'''
 if __debug__:
     text = r"3.149: [CMS-concurrent-preclean: 0.014/0.018 secs] [Times: user=0.07 sys=0.00, real=0.01 secs]"
     (ret, data) = parsePreclean(text, {})
-    print text
-    print len(ret)
-    print data
-
+    print(text)
+    print(len(ret))
+    print(data)
+'''
 
 parseAbortablePrecleanStart = andP([ \
     mkTagger("type", "CMS-concurrent-abortable-preclean-start"), \
     newP(regexp_float + r":\s*", mkDictModifier("timestamp", get_float)), \
     newP(r".*CMS-concurrent-abortable-preclean-start.*$", None), \
 ])
+'''
 if __debug__:
     text = r"3.149: [CMS-concurrent-abortable-preclean-start]"
     (ret, data) = parseAbortablePrecleanStart(text, {})
-    print text
-    print len(ret)
-    print data
-
+    print(text)
+    print(len(ret))
+    print(data)
+'''
 
 parseAbortablePreclean = andP([ \
     mkTagger("type", "CMS-concurrent-abortable-preclean"), \
@@ -349,13 +351,14 @@ parseAbortablePreclean = andP([ \
     newP(regexp_float + r"\s+secs\]\s+", mkDictModifier("response", get_float)), \
     newP(r"\[Times:.*\]$", None), \
 ])
+'''
 if __debug__:
     text = r"17.418: [CMS-concurrent-abortable-preclean: 0.353/1.423 secs] [Times: user=4.60 sys=0.07, real=1.42 secs]"
     (ret, data) = parseAbortablePreclean(text, {})
-    print text
-    print len(ret)
-    print data
-
+    print(text)
+    print(len(ret))
+    print(data)
+'''
 
 parseAbortablePrecleanFullGC0 = andP([ \
     mkTagger("type", "CMS-concurrent-abortable-preclean-fullgc0"), \
@@ -370,18 +373,19 @@ parseAbortablePrecleanFullGC0 = andP([ \
     newP(regexp_float + r"\s+secs\]\s*", mkDictModifier("response", get_float)), \
     newP(r"\[Times:.*\]$", None), \
 ])
+'''
 if __debug__:
     text = r"3.242: [Full GC 3.242: [CMS3.243: [CMS-concurrent-abortable-preclean: 0.046/0.093 secs] [Times: user=0.36 sys=0.00, real=0.10 secs]"
     (ret, data) = parseAbortablePrecleanFullGC0(text, {})
-    print text
-    print len(ret)
-    print data
+    print(text)
+    print(len(ret))
+    print(data)
     text = r"63.533: [Full GC (System) 63.533: [CMS63.534: [CMS-concurrent-abortable-preclean: 0.316/1.244 secs] [Times: user=0.32 sys=0.01, real=1.25 secs]"
     (ret, data) = parseAbortablePrecleanFullGC0(text, {})
-    print text
-    print len(ret)
-    print data
-
+    print(text)
+    print(len(ret))
+    print(data)
+'''
 
 parseAbortablePrecleanFullGC1 = andP([ \
     mkTagger("type", "CMS-concurrent-abortable-preclean-fullgc1"), \
@@ -394,18 +398,19 @@ parseAbortablePrecleanFullGC1 = andP([ \
     newP(regexp_float + r"\s*secs\s*\]\s*", mkDictModifier("response", get_float)), \
     newP(r"\[Times:.*\]$", None), \
 ])
+'''
 if __debug__:
     text = r"  (concurrent mode failure): 0K->7015K(65536K), 0.1244810 secs] 22902K->7015K(114688K), [CMS Perm : 21242K->21237K(21248K)], 0.1246890 secs] [Times: user=0.19 sys=0.05, real=0.13 secs]"
     (ret, data) = parseAbortablePrecleanFullGC1(text, {})
-    print text
-    print len(ret)
-    print data
+    print(text)
+    print(len(ret))
+    print(data)
     text = r"  (concurrent mode interrupted): 44784K->40478K(65536K), 0.4974690 secs] 66630K->40478K(114688K), [CMS Perm : 77174K->77148K(128736K)], 0.4975800 secs] [Times: user=0.46 sys=0.03, real=0.50 secs]"
     (ret, data) = parseAbortablePrecleanFullGC1(text, {})
-    print text
-    print len(ret)
-    print data
-
+    print(text)
+    print(len(ret))
+    print(data)
+'''
 
 parseAbortablePrecleanFailureTime = andP([ \
     mkTagger("type", "CMS-concurrent-abortable-preclean-failure-time"), \
@@ -416,28 +421,29 @@ parseAbortablePrecleanFailureTime = andP([ \
     newP(regexp_float + r"\s*secs\s*\]\s*", mkDictModifier("response", get_float)), \
     newP(r"\[Times:.*\]$", None), \
 ])
+'''
 if __debug__:
     text = r" CMS: abort preclean due to time 36.855: [CMS-concurrent-abortable-preclean: 1.280/5.084 secs] [Times: user=1.29 sys=0.00, real=5.09 secs]"
     (ret, data) = parseAbortablePrecleanFailureTime(text, {})
-    print text
-    print len(ret)
-    print data
+    print(text)
+    print(len(ret))
+    print(data)
     text = r"3.368: [GC [1 CMS-initial-mark: 7015K(65536K)] 7224K(114688K), 0.0004900 secs] [Times: user=0.00 sys=0.00, real=0.00 secs]"
     (ret, data) = parseInitialMark(text, {})
-    print text
-    print len(ret)
-    print data
+    print(text)
+    print(len(ret))
+    print(data)
     text = r"3.428: [CMS-concurrent-mark: 0.059/0.060 secs] [Times: user=0.22 sys=0.00, real=0.06 secs]"
     (ret, data) = parseMark(text, {})
-    print text
-    print len(ret)
-    print data
+    print(text)
+    print(len(ret))
+    print(data)
     text = r"3.431: [CMS-concurrent-preclean: 0.002/0.002 secs] [Times: user=0.00 sys=0.00, real=0.00 secs]"
     (ret, data) = parsePreclean(text, {})
-    print text
-    print len(ret)
-    print data
-
+    print(text)
+    print(len(ret))
+    print(data)
+'''
 
 parseRemark = andP([ \
     mkTagger("type", "CMS-remark"), \
@@ -447,26 +453,28 @@ parseRemark = andP([ \
     newP(regexp_float + r"\s*secs\]\s*", mkDictModifier("response", get_float)), \
     newP(r"\[Times:.*\]$", None), \
 ])
+'''
 if __debug__:
     text = r"3.431: [GC[YG occupancy: 1005 K (49152 K)]3.431: [Rescan (parallel) , 0.0080410 secs]3.439: [weak refs processing, 0.0000100 secs]3.439: [class unloading, 0.0014010 secs]3.441: [scrub symbol & string tables, 0.0032440 secs] [1 CMS-remark: 7015K(65536K)] 8021K(114688K), 0.0130490 secs] [Times: user=0.03 sys=0.00, real=0.02 secs]"
     (ret, data) = parseRemark(text, {})
-    print text
-    print len(ret)
-    print data
-
+    print(text)
+    print(len(ret))
+    print(data)
+'''
 
 parseSweepStart = andP([ \
     mkTagger("type", "CMS-concurrent-sweep-start"), \
     newP(regexp_float + r":\s*", mkDictModifier("timestamp", get_float)), \
     newP(r"\[CMS-concurrent-sweep-start\]$", None), \
 ])
+'''
 if __debug__:
     text = r"3.444: [CMS-concurrent-sweep-start]"
     (ret, data) = parseSweepStart(text, {})
-    print text
-    print len(ret)
-    print data
-
+    print(text)
+    print(len(ret))
+    print(data)
+'''
 
 parseSweep = andP([ \
     mkTagger("type", "CMS-concurrent-sweep"), \
@@ -476,26 +484,28 @@ parseSweep = andP([ \
     newP(regexp_float + r"\s+secs\]\s+", mkDictModifier("response", get_float)), \
     newP(r"\[Times:.*\]$", None), \
 ])
+'''
 if __debug__:
     text = r"3.468: [CMS-concurrent-sweep: 0.024/0.024 secs] [Times: user=0.06 sys=0.00, real=0.02 secs]"
     (ret, data) = parseSweep(text, {})
-    print text
-    print len(ret)
-    print data
-
+    print(text)
+    print(len(ret))
+    print(data)
+'''
 
 parseResetStart = andP([ \
     mkTagger("type", "CMS-concurrent-reset-start"), \
     newP(regexp_float + r":\s*", mkDictModifier("timestamp", get_float)), \
     newP("\[CMS-concurrent-reset-start\]$", None), \
 ])
+'''
 if __debug__:
     text = r"3.468: [CMS-concurrent-reset-start]"
     (ret, data) = parseResetStart(text, {})
-    print text
-    print len(ret)
-    print data
-
+    print(text)
+    print(len(ret))
+    print(data)
+'''
 
 parseReset = andP([ \
     mkTagger("type", "CMS-concurrent-reset"), \
@@ -505,13 +515,14 @@ parseReset = andP([ \
     newP(regexp_float + r"\s+secs\]\s+", mkDictModifier("response", get_float)), \
     newP(r"\[Times:.*\]$", None), \
 ])
+'''
 if __debug__:
     text = r"3.468: [CMS-concurrent-reset: 0.000/0.000 secs] [Times: user=0.00 sys=0.00, real=0.00 secs]"
     (ret, data) = parseReset(text, {})
-    print text
-    print len(ret)
-    print data
-
+    print(text)
+    print(len(ret))
+    print(data)
+'''
 
 parseFullGC = andP([ \
     mkTagger("type", "FullGC"), \
@@ -532,18 +543,19 @@ parseFullGC = andP([ \
     newP(regexp_float + r"\s*secs\]\s*", mkDictModifier("response", get_float)), \
     newP(r"\[Times:.*\]$", None), \
 ])
+'''
 if __debug__:
     text = r"7.992: [Full GC 7.992: [CMS: 6887K->19772K(65536K), 0.4137230 secs] 34678K->19772K(114688K), [CMS Perm : 54004K->53982K(54152K)] icms_dc=0 , 0.4140100 secs] [Times: user=0.68 sys=0.14, real=0.41 secs]"
     (ret, data) = parseFullGC(text, {})
-    print text
-    print len(ret)
-    print data
+    print(text)
+    print(len(ret))
+    print(data)
     text = r"123.533: [Full GC (System) 123.533: [CMS: 39710K->34052K(65536K), 0.4852070 secs] 62832K->34052K(114688K), [CMS Perm : 77479K->76395K(128928K)], 0.4853310 secs] [Times: user=0.47 sys=0.01, real=0.48 secs]"
     (ret, data) = parseFullGC(text, {})
-    print text
-    print len(ret)
-    print data
-
+    print(text)
+    print(len(ret))
+    print(data)
+'''
 # This is for -XX:+UseParallelGC
 parseParallelGC = andP([ \
     mkTagger("type", "ParallelGC"), \
@@ -554,13 +566,14 @@ parseParallelGC = andP([ \
     newP(regexp_float + r"\s*secs\s*\]\s*", mkDictModifier("response", get_float)), \
     newP(r"\[Times:.*\]$", None), \
 ])
+'''
 if __debug__:
     text = r"162.002: [GC [PSYoungGen: 39323K->3653K(49152K)] 87187K->56999K(114688K), 0.0207580 secs] [Times: user=0.08 sys=0.00, real=0.02 secs]"
     (ret, data) = parseParallelGC(text, {})
-    print text
-    print len(ret)
-    print data
-
+    print(text)
+    print(len(ret))
+    print(data)
+'''
 
 # This is for -XX:+UseParallelGC
 parseParallelFullGC = andP([ \
@@ -571,7 +584,10 @@ parseParallelFullGC = andP([ \
       newP(r"\[Full GC\s*\[PSYoungGen:\s*", None), \
     ]), \
     newP(regexp_heap_info + r"\s*\]\s*", mkDictModifier("heap_new", get_int3)), \
-    newP(r"\[PSOldGen:\s*", None), \
+    orP([ \
+         newP(r"\[ParOldGen:\s*", None), \
+         newP(r"\[PSOldGen:\s*", None), \
+    ]), \
     newP(regexp_heap_info + r"\s*\]\s*", mkDictModifier("heap_old", get_int3)), \
     newP(regexp_heap_info + r"\s*", mkDictModifier("heap_all", get_int3)), \
     newP(r"\[PSPermGen:\s*", None), \
@@ -579,13 +595,14 @@ parseParallelFullGC = andP([ \
     newP(regexp_float + r"\s*secs\s*\]\s*", mkDictModifier("response", get_float)), \
     newP(r"\[Times:.*\]$", None), \
 ])
+'''
 if __debug__:
     text = r"162.657: [Full GC [PSYoungGen: 6189K->0K(50752K)] [PSOldGen: 58712K->43071K(65536K)] 64902K->43071K(116288K) [PSPermGen: 81060K->81060K(81152K)], 0.3032230 secs] [Times: user=0.30 sys=0.00, real=0.30 secs]"
     (ret, data) = parseParallelFullGC(text, {})
-    print text
-    print len(ret)
-    print data
-
+    print(text)
+    print(len(ret))
+    print(data)
+'''
 
 # This is for -XX:+UseSerialGC
 parseSerialGC = andP([ \
@@ -599,13 +616,14 @@ parseSerialGC = andP([ \
     newP(regexp_float + r"\s*secs\s*\]\s*", mkDictModifier("response", get_float)), \
     newP(r"\[Times:.*\]$", None), \
 ])
+'''
 if __debug__:
     text = r"4.687: [GC 4.687: [DefNew: 33343K->649K(49152K), 0.0021450 secs] 45309K->12616K(114688K), 0.0021800 secs] [Times: user=0.00 sys=0.00, real=0.00 secs]"
     (ret, data) = parseSerialGC(text, {})
-    print text
-    print len(ret)
-    print data
-
+    print(text)
+    print(len(ret))
+    print(data)
+'''
 
 # This is for -XX:+UseSerialGC
 parseSerialFullGC = andP([ \
@@ -622,13 +640,14 @@ parseSerialFullGC = andP([ \
     newP(regexp_float + r"\s*secs\s*\]\s*", mkDictModifier("response", get_float)), \
     newP(r"\[Times:.*\]$", None), \
 ])
+'''
 if __debug__:
     text = r"4.899: [Full GC 4.899: [Tenured: 11966K->12899K(65536K), 0.1237750 secs] 22655K->12899K(114688K), [Perm : 32122K->32122K(32128K)], 0.1238590 secs] [Times: user=0.11 sys=0.00, real=0.13 secs]"
     (ret, data) = parseSerialFullGC(text, {})
-    print text
-    print len(ret)
-    print data
-
+    print(text)
+    print(len(ret))
+    print(data)
+'''
 
 """
 Java GC Log parser.
@@ -713,23 +732,40 @@ parseIntList = andP([ \
     ])), \
     newP(r"\s*\]\s*", None), \
 ])
+'''
 if __debug__:
     text = r"[10, 20, 30]"
     (ret, data) = parseIntList(text, [])
-    print text
-    print len(ret)
-    print data
-
-
+    print(text)
+    print(len(ret))
+    print(data)
+'''
+      
 ################################################################################
 # main
 ################################################################################
+class GCLogLineParser(LineParser):
+    array_clazz = [].__class__
+    def parse(self,line):
+        (ret,data) = parseJavaGcLog(line, {})
+        values = dict()
+        if not isinstance(data, dict):
+            return None
+        for key,value in data.items():
+            if isinstance(value, self.array_clazz) and len(value) == 3:
+                values[key+"-before"]=value[0]
+                values[key+"-after"]=value[1]
+                values[key+"-total"]=value[2]
+            else:
+                values[key] = value
+        return values  
     
+'''
 data_prev = None
 for line in sys.stdin:
     try:
         text = line.rstrip()
-        #print text
+        #print(text)
         (ret, data) = parseJavaGcLog(text, {})
         if data["type"] == "CMS-concurrent-abortable-preclean-fullgc0":
             data_prev = data
@@ -741,11 +777,11 @@ for line in sys.stdin:
             data_prev = None
             data["type"] = "CMS-concurrent-abortable-preclean-fullgc"
         if __debug__:
-            print ("len: %d" % len(ret))
-        print json.dumps(data)
-    except ParseError, msg:
-        #print msg
-        print ("###%s" % text)
+            print(("len: %d" % len(ret)))
+        print(json.dumps(data))
+    except ParseError as msg:
+        print(msg)
+        print(("###%s" % text))
 
-
+'''
 # end of file.
