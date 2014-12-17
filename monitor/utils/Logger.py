@@ -21,10 +21,13 @@ def info(msg):
 
 def warn(msg):
     logging.warn(msg)
+    print(msg)
     
 def error(msg):
     logging.warn(msg)
+    print(msg)
     
 def fatal(msg):
     logging.fatal(msg)
+    print(msg)
     

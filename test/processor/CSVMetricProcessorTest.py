@@ -1,4 +1,10 @@
 # -*- coding: utf-8 -*-
+
+'''
+CSVMetricProcessor单元测试
+Create on 2014-12-8
+@author: liangzonghua
+'''
 import unittest
 import os
 import csv
