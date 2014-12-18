@@ -6,7 +6,6 @@ Created on 2014-11-12
 
 from os import getcwd
 
-
 clientId = "outworker"
 version = "1.0.0"
 home = getcwd()
