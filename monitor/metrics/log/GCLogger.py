@@ -753,9 +753,9 @@ class GCLogLineParser(LineParser):
             return None
         for key,value in data.items():
             if isinstance(value, self.array_clazz) and len(value) == 3:
-                values[key+"-before"]=value[0]
-                values[key+"-after"]=value[1]
-                values[key+"-total"]=value[2]
+                values[key+"_before"]=value[0]
+                values[key+"_after"]=value[1]
+                values[key+"_total"]=value[2]
             else:
                 values[key] = value
         return values  

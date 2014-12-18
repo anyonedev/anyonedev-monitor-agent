@@ -14,21 +14,21 @@ class GCLogLineParserTest(unittest.TestCase):
         self.assertEqual("ParallelFullGC", data["type"], msg)
         self.assertEqual(0.1099306, data["response"], msg)
         
-        self.assertEqual(6962, data["heap_new-before"], msg)
-        self.assertEqual(0, data["heap_new-after"], msg)
-        self.assertEqual(153600, data["heap_new-total"], msg)
+        self.assertEqual(6962, data["heap_new_before"], msg)
+        self.assertEqual(0, data["heap_new_after"], msg)
+        self.assertEqual(153600, data["heap_new_total"], msg)
         
-        self.assertEqual(72, data["heap_old-before"], msg)
-        self.assertEqual(6710, data["heap_old-after"], msg)
-        self.assertEqual(349696, data["heap_old-total"], msg)
+        self.assertEqual(72, data["heap_old_before"], msg)
+        self.assertEqual(6710, data["heap_old_after"], msg)
+        self.assertEqual(349696, data["heap_old_total"], msg)
         
-        self.assertEqual(14167, data["perm-before"], msg)
-        self.assertEqual(14162, data["perm-after"], msg)
-        self.assertEqual(28672, data["perm-total"], msg)
+        self.assertEqual(14167, data["perm_before"], msg)
+        self.assertEqual(14162, data["perm_after"], msg)
+        self.assertEqual(28672, data["perm_total"], msg)
 
-        self.assertEqual(7034, data["heap_all-before"], msg)
-        self.assertEqual(503296, data["heap_all-total"], msg)
-        self.assertEqual(6710, data["heap_all-after"], msg)
+        self.assertEqual(7034, data["heap_all_before"], msg)
+        self.assertEqual(503296, data["heap_all_total"], msg)
+        self.assertEqual(6710, data["heap_all_after"], msg)
 
              
     def test2(self):
@@ -40,13 +40,13 @@ class GCLogLineParserTest(unittest.TestCase):
         self.assertEqual("ParNew", data["type"], msg)
         self.assertEqual(0.0130090, data["response"], msg)
         
-        self.assertEqual(32768, data["heap_new-before"], msg)
-        self.assertEqual(4204, data["heap_new-after"], msg)
-        self.assertEqual(49152, data["heap_new-total"], msg)
+        self.assertEqual(32768, data["heap_new_before"], msg)
+        self.assertEqual(4204, data["heap_new_after"], msg)
+        self.assertEqual(49152, data["heap_new_total"], msg)
 
-        self.assertEqual(32768, data["heap_all-before"], msg)
-        self.assertEqual(4204, data["heap_all-after"], msg)
-        self.assertEqual(114688, data["heap_all-total"], msg)
+        self.assertEqual(32768, data["heap_all_before"], msg)
+        self.assertEqual(4204, data["heap_all_after"], msg)
+        self.assertEqual(114688, data["heap_all_total"], msg)
         
     def test3(self):
         log = "9.815: [GC 9.815: [ParNew: 32768K->10796K(49152K), 0.0286700 secs] 52540K->30568K(114688K) icms_dc=0 , 0.0287550 secs] [Times: user=0.09 sys=0.00, real=0.03 secs]"
@@ -57,13 +57,13 @@ class GCLogLineParserTest(unittest.TestCase):
         self.assertEqual("ParNew", data["type"], msg)
         self.assertEqual(0.028755, data["response"], msg)
         
-        self.assertEqual(32768, data["heap_new-before"], msg)
-        self.assertEqual(10796, data["heap_new-after"], msg)
-        self.assertEqual(49152, data["heap_new-total"], msg)
+        self.assertEqual(32768, data["heap_new_before"], msg)
+        self.assertEqual(10796, data["heap_new_after"], msg)
+        self.assertEqual(49152, data["heap_new_total"], msg)
 
-        self.assertEqual(52540, data["heap_all-before"], msg)
-        self.assertEqual(30568, data["heap_all-after"], msg)
-        self.assertEqual(114688, data["heap_all-total"], msg)    
+        self.assertEqual(52540, data["heap_all_before"], msg)
+        self.assertEqual(30568, data["heap_all_after"], msg)
+        self.assertEqual(114688, data["heap_all_total"], msg)    
         
     def test4(self):
         log = "3.072: [GC [1 CMS-initial-mark: 0K(65536K)] 19136K(114688K), 0.0215880 secs] [Times: user=0.04 sys=0.00, real=0.02 secs]"
@@ -151,17 +151,17 @@ class GCLogLineParserTest(unittest.TestCase):
         self.assertEqual("CMS-concurrent-abortable-preclean-fullgc1", data["type"], msg)
         self.assertEqual(0.124689, data["response"], msg)
         
-        self.assertEqual(0, data["heap_1-before"], msg)
-        self.assertEqual(7015, data["heap_1-after"], msg)
-        self.assertEqual(65536, data["heap_1-total"], msg)
+        self.assertEqual(0, data["heap_1_before"], msg)
+        self.assertEqual(7015, data["heap_1_after"], msg)
+        self.assertEqual(65536, data["heap_1_total"], msg)
         
-        self.assertEqual(22902, data["heap_2-before"], msg)
-        self.assertEqual(7015, data["heap_2-after"], msg)
-        self.assertEqual(114688, data["heap_2-total"], msg)
+        self.assertEqual(22902, data["heap_2_before"], msg)
+        self.assertEqual(7015, data["heap_2_after"], msg)
+        self.assertEqual(114688, data["heap_2_total"], msg)
 
-        self.assertEqual(21242, data["perm-before"], msg)
-        self.assertEqual(21237, data["perm-after"], msg)
-        self.assertEqual(21248, data["perm-total"], msg) 
+        self.assertEqual(21242, data["perm_before"], msg)
+        self.assertEqual(21237, data["perm_after"], msg)
+        self.assertEqual(21248, data["perm_total"], msg) 
     
     def test14(self):
         log = "  (concurrent mode interrupted): 44784K->40478K(65536K), 0.4974690 secs] 66630K->40478K(114688K), [CMS Perm : 77174K->77148K(128736K)], 0.4975800 secs] [Times: user=0.46 sys=0.03, real=0.50 secs]"
@@ -171,17 +171,17 @@ class GCLogLineParserTest(unittest.TestCase):
         self.assertEqual("CMS-concurrent-abortable-preclean-fullgc1", data["type"], msg)
         self.assertEqual(0.49758, data["response"], msg)
         
-        self.assertEqual(44784, data["heap_1-before"], msg)
-        self.assertEqual(40478, data["heap_1-after"], msg)
-        self.assertEqual(65536, data["heap_1-total"], msg)
+        self.assertEqual(44784, data["heap_1_before"], msg)
+        self.assertEqual(40478, data["heap_1_after"], msg)
+        self.assertEqual(65536, data["heap_1_total"], msg)
         
-        self.assertEqual(66630, data["heap_2-before"], msg)
-        self.assertEqual(40478, data["heap_2-after"], msg)
-        self.assertEqual(114688, data["heap_2-total"], msg)
+        self.assertEqual(66630, data["heap_2_before"], msg)
+        self.assertEqual(40478, data["heap_2_after"], msg)
+        self.assertEqual(114688, data["heap_2_total"], msg)
 
-        self.assertEqual(77174, data["perm-before"], msg)
-        self.assertEqual(77148, data["perm-after"], msg)
-        self.assertEqual(128736, data["perm-total"], msg) 
+        self.assertEqual(77174, data["perm_before"], msg)
+        self.assertEqual(77148, data["perm_after"], msg)
+        self.assertEqual(128736, data["perm_total"], msg) 
     
     def test15(self):
         log = " CMS: abort preclean due to time 36.855: [CMS-concurrent-abortable-preclean: 1.280/5.084 secs] [Times: user=1.29 sys=0.00, real=5.09 secs]"
@@ -270,17 +270,17 @@ class GCLogLineParserTest(unittest.TestCase):
         self.assertEqual(7.992, data["timestamp"], msg)
         self.assertEqual(0.41401, data["response"], msg)
         
-        self.assertEqual(34678, data["heap_all-before"], msg)
-        self.assertEqual(19772, data["heap_all-after"], msg)
-        self.assertEqual(114688, data["heap_all-total"], msg)
+        self.assertEqual(34678, data["heap_all_before"], msg)
+        self.assertEqual(19772, data["heap_all_after"], msg)
+        self.assertEqual(114688, data["heap_all_total"], msg)
         
-        self.assertEqual(6887, data["heap_cms-before"], msg)
-        self.assertEqual(19772, data["heap_cms-after"], msg)
-        self.assertEqual(65536, data["heap_cms-total"], msg)
+        self.assertEqual(6887, data["heap_cms_before"], msg)
+        self.assertEqual(19772, data["heap_cms_after"], msg)
+        self.assertEqual(65536, data["heap_cms_total"], msg)
         
-        self.assertEqual(54004, data["perm-before"], msg)
-        self.assertEqual(53982, data["perm-after"], msg)
-        self.assertEqual(54152, data["perm-total"], msg)
+        self.assertEqual(54004, data["perm_before"], msg)
+        self.assertEqual(53982, data["perm_after"], msg)
+        self.assertEqual(54152, data["perm_total"], msg)
 
     def test25(self):
         log = "123.533: [Full GC (System) 123.533: [CMS: 39710K->34052K(65536K), 0.4852070 secs] 62832K->34052K(114688K), [CMS Perm : 77479K->76395K(128928K)], 0.4853310 secs] [Times: user=0.47 sys=0.01, real=0.48 secs]"
@@ -292,17 +292,17 @@ class GCLogLineParserTest(unittest.TestCase):
         self.assertEqual(123.533, data["timestamp"], msg)
         self.assertEqual(0.485331, data["response"], msg)
         
-        self.assertEqual(62832, data["heap_all-before"], msg)
-        self.assertEqual(34052, data["heap_all-after"], msg)
-        self.assertEqual(114688, data["heap_all-total"], msg)
+        self.assertEqual(62832, data["heap_all_before"], msg)
+        self.assertEqual(34052, data["heap_all_after"], msg)
+        self.assertEqual(114688, data["heap_all_total"], msg)
         
-        self.assertEqual(39710, data["heap_cms-before"], msg)
-        self.assertEqual(34052, data["heap_cms-after"], msg)
-        self.assertEqual(65536, data["heap_cms-total"], msg)
+        self.assertEqual(39710, data["heap_cms_before"], msg)
+        self.assertEqual(34052, data["heap_cms_after"], msg)
+        self.assertEqual(65536, data["heap_cms_total"], msg)
         
-        self.assertEqual(77479, data["perm-before"], msg)
-        self.assertEqual(76395, data["perm-after"], msg)
-        self.assertEqual(128928, data["perm-total"], msg)
+        self.assertEqual(77479, data["perm_before"], msg)
+        self.assertEqual(76395, data["perm_after"], msg)
+        self.assertEqual(128928, data["perm_total"], msg)
         
     def test26(self):
         log = "162.002: [GC [PSYoungGen: 39323K->3653K(49152K)] 87187K->56999K(114688K), 0.0207580 secs] [Times: user=0.08 sys=0.00, real=0.02 secs]"
@@ -313,13 +313,13 @@ class GCLogLineParserTest(unittest.TestCase):
         self.assertEqual(162.002, data["timestamp"], msg)
         self.assertEqual(0.020758, data["response"], msg)
         
-        self.assertEqual(87187, data["heap_all-before"], msg)
-        self.assertEqual(56999, data["heap_all-after"], msg)
-        self.assertEqual(114688, data["heap_all-total"], msg)
+        self.assertEqual(87187, data["heap_all_before"], msg)
+        self.assertEqual(56999, data["heap_all_after"], msg)
+        self.assertEqual(114688, data["heap_all_total"], msg)
         
-        self.assertEqual(39323, data["heap_new-before"], msg)
-        self.assertEqual(3653, data["heap_new-after"], msg)
-        self.assertEqual(49152, data["heap_new-total"], msg)
+        self.assertEqual(39323, data["heap_new_before"], msg)
+        self.assertEqual(3653, data["heap_new_after"], msg)
+        self.assertEqual(49152, data["heap_new_total"], msg)
      
     def test27(self):
         log = "162.657: [Full GC [PSYoungGen: 6189K->0K(50752K)] [PSOldGen: 58712K->43071K(65536K)] 64902K->43071K(116288K) [PSPermGen: 81060K->81060K(81152K)], 0.3032230 secs] [Times: user=0.30 sys=0.00, real=0.30 secs]"
@@ -330,21 +330,21 @@ class GCLogLineParserTest(unittest.TestCase):
         self.assertEqual(162.657, data["timestamp"], msg)
         self.assertEqual(0.303223, data["response"], msg)
         
-        self.assertEqual(58712, data["heap_old-before"], msg)
-        self.assertEqual(43071, data["heap_old-after"], msg)
-        self.assertEqual(65536, data["heap_old-total"], msg)
+        self.assertEqual(58712, data["heap_old_before"], msg)
+        self.assertEqual(43071, data["heap_old_after"], msg)
+        self.assertEqual(65536, data["heap_old_total"], msg)
         
-        self.assertEqual(6189, data["heap_new-before"], msg)
-        self.assertEqual(0, data["heap_new-after"], msg)
-        self.assertEqual(50752, data["heap_new-total"], msg) 
+        self.assertEqual(6189, data["heap_new_before"], msg)
+        self.assertEqual(0, data["heap_new_after"], msg)
+        self.assertEqual(50752, data["heap_new_total"], msg) 
         
-        self.assertEqual(81060, data["perm-before"], msg)
-        self.assertEqual(81060, data["perm-after"], msg)
-        self.assertEqual(81152, data["perm-total"], msg)
+        self.assertEqual(81060, data["perm_before"], msg)
+        self.assertEqual(81060, data["perm_after"], msg)
+        self.assertEqual(81152, data["perm_total"], msg)
         
-        self.assertEqual(64902, data["heap_all-before"], msg)
-        self.assertEqual(43071, data["heap_all-after"], msg)
-        self.assertEqual(116288, data["heap_all-total"], msg)   
+        self.assertEqual(64902, data["heap_all_before"], msg)
+        self.assertEqual(43071, data["heap_all_after"], msg)
+        self.assertEqual(116288, data["heap_all_total"], msg)   
 
     def test28(self):
         log = "4.687: [GC 4.687: [DefNew: 33343K->649K(49152K), 0.0021450 secs] 45309K->12616K(114688K), 0.0021800 secs] [Times: user=0.00 sys=0.00, real=0.00 secs]"
@@ -355,13 +355,13 @@ class GCLogLineParserTest(unittest.TestCase):
         self.assertEqual(4.687, data["timestamp"], msg)
         self.assertEqual(0.00218, data["response"], msg)
         
-        self.assertEqual(33343, data["heap_new-before"], msg)
-        self.assertEqual(649, data["heap_new-after"], msg)
-        self.assertEqual(49152, data["heap_new-total"], msg) 
+        self.assertEqual(33343, data["heap_new_before"], msg)
+        self.assertEqual(649, data["heap_new_after"], msg)
+        self.assertEqual(49152, data["heap_new_total"], msg) 
         
-        self.assertEqual(45309, data["heap_all-before"], msg)
-        self.assertEqual(12616, data["heap_all-after"], msg)
-        self.assertEqual(114688, data["heap_all-total"], msg) 
+        self.assertEqual(45309, data["heap_all_before"], msg)
+        self.assertEqual(12616, data["heap_all_after"], msg)
+        self.assertEqual(114688, data["heap_all_total"], msg) 
     
     def test29(self):
         log = "4.899: [Full GC 4.899: [Tenured: 11966K->12899K(65536K), 0.1237750 secs] 22655K->12899K(114688K), [Perm : 32122K->32122K(32128K)], 0.1238590 secs] [Times: user=0.11 sys=0.00, real=0.13 secs]"
@@ -372,17 +372,17 @@ class GCLogLineParserTest(unittest.TestCase):
         self.assertEqual(4.899, data["timestamp"], msg)
         self.assertEqual(0.123859, data["response"], msg)
         
-        self.assertEqual(11966, data["heap_old-before"], msg)
-        self.assertEqual(12899, data["heap_old-after"], msg)
-        self.assertEqual(65536, data["heap_old-total"], msg) 
+        self.assertEqual(11966, data["heap_old_before"], msg)
+        self.assertEqual(12899, data["heap_old_after"], msg)
+        self.assertEqual(65536, data["heap_old_total"], msg) 
         
-        self.assertEqual(22655, data["heap_all-before"], msg)
-        self.assertEqual(12899, data["heap_all-after"], msg)
-        self.assertEqual(114688, data["heap_all-total"], msg) 
+        self.assertEqual(22655, data["heap_all_before"], msg)
+        self.assertEqual(12899, data["heap_all_after"], msg)
+        self.assertEqual(114688, data["heap_all_total"], msg) 
         
-        self.assertEqual(32122, data["perm-before"], msg)
-        self.assertEqual(32122, data["perm-after"], msg)
-        self.assertEqual(32128, data["perm-total"], msg) 
+        self.assertEqual(32122, data["perm_before"], msg)
+        self.assertEqual(32122, data["perm_after"], msg)
+        self.assertEqual(32128, data["perm_total"], msg) 
         
 if __name__ == "__main__":
     unittest.main()
