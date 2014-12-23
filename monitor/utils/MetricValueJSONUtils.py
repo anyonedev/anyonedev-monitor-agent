@@ -1,4 +1,4 @@
-from monitor.core.MetricValue import MetricValue,SingleMetricValue,\
+from core.MetricValue import MetricValue,SingleMetricValue,\
     KeyedMultiMetricValue, MultiMetricValue, BatchMultiMetricValue
 import json
 

@@ -33,3 +33,8 @@ graphiteSender = {
     "Carbon_LineReceiverPort" : 2003,
     "Carbon_LineReceiverProtocol":"tcp",  
     }
+
+httpExportConfig = {
+    "port" : 8888,
+    "allow_cors" : True
+    }

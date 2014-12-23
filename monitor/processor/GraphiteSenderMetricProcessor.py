@@ -7,9 +7,9 @@ Created on 2014-11-13
     Carbon_LineReceiverProtocol : 协议，默认tcp
 @author: hongye,liangzonghua
 '''
-from monitor.core.MetricProcessor import MetricProcessor
-from monitor.config import config
-from monitor.utils.Logger import info, warn
+from core.MetricProcessor import MetricProcessor
+from config import config
+from utils.Logger import info, warn
 from time import time
 
 import socket
