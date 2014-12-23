@@ -14,8 +14,8 @@ Create On: 2014-12-19
 
 
 '''
-from monitor.core.MonitorSource import SampleMonitorSource
-from monitor.core.MetricValue import KeyedMultiMetricValue, MultiMetricValue
+from core.MonitorSource import SampleMonitorSource
+from core.MetricValue import KeyedMultiMetricValue, MultiMetricValue
 import netifaces
 from monitor.core import regist_monitor_source
 from monitor.utils import MetricValueJSONUtils
