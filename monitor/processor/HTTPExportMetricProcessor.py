@@ -33,8 +33,10 @@ from core.MetricValue import MultiMetricValue, SingleMetricValue, \
     BatchMultiMetricValue, KeyedMultiMetricValue
 from core.MonitorSource import SampleMonitorSource
 from metrics.Cpu import cpu_percent
+from config.config import httpExportConfig
 
-
+IS_ALLOW_CORS = httpExportConfig.get("allow_cors")
+PORT = httpExportConfig.get("port")
 class TornadoMetricProcessor(MetricProcessor):
     pass
 
@@ -91,10 +93,11 @@ class IndexHandler(tornado.web.RequestHandler):
             self.write(result)
     
     def prepare(self):
-        #允许请求跨域的设置
-        self.set_header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
-        self.set_header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE")
-        self.set_header("Access-Control-Allow-Origin", "*") 
+        if IS_ALLOW_CORS:
+            #允许请求跨域的设置
+            self.set_header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+            self.set_header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE")
+            self.set_header("Access-Control-Allow-Origin", "*") 
         
     def options(self, *args, **kwargs):
         #call prepare to allow Cross-Origin
@@ -113,7 +116,7 @@ class IndexHandler(tornado.web.RequestHandler):
         self.write("You caused a %d error." % status_code)
         
 class HTTPJsonExportMetricProcessor(TornadoMetricProcessor):
-    _port = 8888
+    _port = PORT
     
     def start(self):
         try:
@@ -129,7 +132,7 @@ class HTTPJsonExportMetricProcessor(TornadoMetricProcessor):
         self._port = port
         return self
     
-def http_json_export(port=8888):
+def http_json_export(port=PORT):
     return HTTPJsonExportMetricProcessor().port(port)
 
 
