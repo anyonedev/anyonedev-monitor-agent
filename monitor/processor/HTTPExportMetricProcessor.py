@@ -37,6 +37,7 @@ from config.config import httpExportConfig
 
 IS_ALLOW_CORS = httpExportConfig.get("allow_cors")
 PORT = httpExportConfig.get("port")
+ALLOW_ORIGIN = httpExportConfig.get("allow_origin")
 class TornadoMetricProcessor(MetricProcessor):
     pass
 
@@ -97,7 +98,7 @@ class IndexHandler(tornado.web.RequestHandler):
             #允许请求跨域的设置
             self.set_header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
             self.set_header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE")
-            self.set_header("Access-Control-Allow-Origin", "*") 
+            self.set_header("Access-Control-Allow-Origin", ALLOW_ORIGIN) 
         
     def options(self, *args, **kwargs):
         #call prepare to allow Cross-Origin
@@ -123,7 +124,6 @@ class HTTPJsonExportMetricProcessor(TornadoMetricProcessor):
             app = tornado.web.Application(handlers=[(r"/sample", IndexHandler)])
             http_server = tornado.httpserver.HTTPServer(app)
             http_server.listen(self._port)
-            #app.listen("8888", "0.0.0.0")
             tornado.ioloop.IOLoop.instance().start()
         except Exception as ex:
             raise ex

@@ -36,5 +36,6 @@ graphiteSender = {
 
 httpExportConfig = {
     "port" : 8888,
-    "allow_cors" : True
+    "allow_cors" : True,
+    "allow_origin": "*"
     }

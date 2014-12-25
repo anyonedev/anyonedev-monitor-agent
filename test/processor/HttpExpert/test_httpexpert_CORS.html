@@ -20,10 +20,10 @@
 <script type="text/javascript">
     $(function(){
 		$.ajax({
-			type: "POST",
+			type: "GET",
 			contentType : "application/json",
 			dataType: "json",
-			url : "http://127.0.0.1:8888/sample?name=cpu_percent",
+			url : "http://localhost:8888/sample?name=cpu_percent",
 			success: function(data){
 				console.log(data)
 				$("#sampleInfo").html(JSON.stringify(data))
