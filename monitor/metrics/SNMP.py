@@ -8,9 +8,10 @@ from core.MetricValue import MultiMetricValue, KO
 from pysnmp.entity.rfc3413.oneliner import cmdgen
 from monitor.utils.Logger import warn
 from utils import MetricValueJSONUtils
+from core import regist_monitor_source
 
 
-class SnmpMonitorSource(SampleMonitorSource):
+class SNMPMonitorSource(SampleMonitorSource):
     _cmdGenerator = None
     _host = "127.0.0.1"
     _port = 161
@@ -43,16 +44,24 @@ class SnmpMonitorSource(SampleMonitorSource):
         )
         if errorIndication or errorStatus or errorIndex:
             result.status(KO)
-            result.addMetricValue("errorIndication", errorIndication)
+            result.addMetricValue("errorIndication", errorIndication.__dict__)
             result.addMetricValue("errorStatus", errorStatus)
             result.addMetricValue("errorIndex", errorIndex)
         else:
             for name, val in varBinds:
                 result.addMetricValue(name.prettyPrint(), val.prettyPrint())
-
         return result
+    
+def snmp_monitor_source(monitorSourceName="",host="127.0.0.1",port="161",community_data_name="public",sample_varnames=[]):
+    monitorSource = SNMPMonitorSource(host,port,community_data_name,sample_varnames)
+    monitorSource.monitorSourceName(monitorSourceName)
+    regist_monitor_source(monitorSource)
+    return monitorSource
 
+class OracleSNMPMonitorSource(SNMPMonitorSource):
+    pass
 
+#for test
 if __name__ == "__main__":
-    rs = SnmpMonitorSource(sample_varnames=["sysName","sysUpTime","sysContact"]).monitorSourceName("snmp").sample(None)
+    rs = snmp_monitor_source(sample_varnames=["sysName","sysUpTime","sysContact"]).monitorSourceName("snmp").sample(None)
     print(MetricValueJSONUtils.toJSON(rs))
